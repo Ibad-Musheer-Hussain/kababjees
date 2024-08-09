@@ -150,6 +150,23 @@ class _CustomdrawerState extends State<Customdrawer> {
                 );
               },
             ),
+            Center(
+              child: Container(
+                width: 40.0,
+                height: 40.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white54,
+                ),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/cartPage');
+                  },
+                  icon: Icon(Icons.shopping_cart),
+                  color: Colors.black,
+                ),
+              ),
+            ),
           ],
         ),
       ),

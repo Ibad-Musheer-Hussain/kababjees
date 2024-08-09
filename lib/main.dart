@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:kababjees/CartPage.dart';
 import 'package:kababjees/HomeScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:kababjees/Introduction.dart';
 import 'package:kababjees/itemPage.dart';
 import 'package:provider/provider.dart';
 import 'package:kababjees/cart_provider.dart';
+import 'package:kababjees/StartPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,9 +34,11 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/HomeScreen': (context) => Homescreen(),
-        '/itemPage': (context) => Itempage()
+        '/itemPage': (context) => Itempage(),
+        '/introduction': (context) => Introduction(),
+        '/cartPage': (context) => Cartpage()
       },
-      home: Homescreen(),
+      home: StartPage(),
     );
   }
 }

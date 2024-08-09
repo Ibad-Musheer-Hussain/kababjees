@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
@@ -8,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:http/http.dart' as http;
+import 'package:kababjees/CategoryList.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -21,13 +24,13 @@ class _HomescreenState extends State<Homescreen> {
   List<Items> ItemList = [
     Items(
         id: 3,
-        name: 'Beef',
+        name: 'Masala Fries',
         price: 499,
         quantity: 3,
-        description: 'Beef Burger',
+        description:
+            'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
         category: Category(id: 1, description: "asd", name: "Burgers"),
-        titleimage:
-            'https://firebasestorage.googleapis.com/v0/b/biddy-45c49.appspot.com/o/Ad%20Pics%2F2024-07-23%2006%3A30%3A28.149645_0.png?alt=media&token=906df468-7080-4181-a8df-973faa1813b7',
+        titleimage: 'https://firebasestorage.googleapis.com/v0/b/biddy-45c49.appspot.com/o/Layer%201.png?alt=media&token=0c337285-c71c-415d-a223-190e6705a25e',
         ingredient: ["Buns", "Beef"]),
   ];
 
@@ -42,6 +45,8 @@ class _HomescreenState extends State<Homescreen> {
     'lib/assets/banner1.jpg',
     'lib/assets/banner1.jpg',
   ];
+
+  int selectedIndex = 0;
 
   @override
   void initState() {
@@ -111,6 +116,15 @@ class _HomescreenState extends State<Homescreen> {
     print("all fetched successfully");
   }
 
+  List<Type> Types = [
+    Type(name: "Sedans", icon: "lib/assets/hamburger.png"),
+    Type(name: "SUVs", icon: "lib/assets/burrito.png"),
+    Type(name: "Coupes", icon: "lib/assets/drinks.png"),
+    Type(name: "Hatchbacks", icon: "lib/assets/hamburger.png"),
+    Type(name: "Hybrid", icon: "lib/assets/hamburger.png"),
+    Type(name: "Motorbikes", icon: "lib/assets/hamburger.png")
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,12 +132,20 @@ class _HomescreenState extends State<Homescreen> {
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
+          automaticallyImplyLeading: false,
           scrolledUnderElevation: 0,
           title: Icon(
             Icons.menu,
             color: Colors.white,
           ),
           actions: [
+            IconButton(
+              icon: Icon(
+                Icons.search,
+                color: Colors.white,
+              ), // Custom icon to open endDrawer
+              onPressed: () {},
+            ),
             IconButton(
               icon: Icon(
                 Icons.shopping_cart,
@@ -652,7 +674,7 @@ class _HomescreenState extends State<Homescreen> {
                               ),
                             ),
                             Image.network(
-                              "https://firebasestorage.googleapis.com/v0/b/biddy-45c49.appspot.com/o/Layer%201.png?alt=media&token=0c337285-c71c-415d-a223-190e6705a25e",
+                              item.titleimage,
                               width: 200,
                               height: 170,
                               frameBuilder: (BuildContext context, Widget child,
@@ -691,100 +713,16 @@ class _HomescreenState extends State<Homescreen> {
                     style: TextStyle(
                         fontSize: 24, color: Colors.white.withAlpha(240)),
                   )),
-              Center(
-                child: Stack(children: [
-                  Padding(
-                    padding: const EdgeInsets.all(35.0),
-                    child: GlassmorphicContainer(
-                      height: 220,
-                      width: MediaQuery.of(context).size.width - 100,
-                      borderRadius: 12,
-                      blur: 0,
-                      alignment: Alignment.bottomCenter,
-                      border: 1,
-                      linearGradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Color(0x020616).withAlpha(70),
-                            Color(0xFFffffff).withAlpha(75),
-                          ],
-                          stops: [
-                            0.1,
-                            0.5,
-                          ]),
-                      borderGradient: LinearGradient(
-                          begin: Alignment.bottomRight,
-                          end: Alignment.topLeft,
-                          colors: [
-                            Color(0xFF4579C5).withAlpha(01),
-                            Color(0xFFFFFFF).withAlpha(20),
-                            Color(0xFFF75035).withAlpha(20),
-                          ],
-                          stops: [
-                            0.6,
-                            0.95,
-                            1
-                          ]),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 80.0, right: 200),
-                              child: Text(
-                                "Carte & Combos",
-                                style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 6.0, vertical: 8),
-                              child: Text(
-                                '1200.0',
-                                style: const TextStyle(
-                                    fontSize: 18, color: Colors.white),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 200.0, top: 55),
-                    child: Image.network(
-                      "https://firebasestorage.googleapis.com/v0/b/biddy-45c49.appspot.com/o/Layer%201.png?alt=media&token=0c337285-c71c-415d-a223-190e6705a25e",
-                      width: 200,
-                      height: 170,
-                      frameBuilder: (BuildContext context, Widget child,
-                          int? frame, bool wasSynchronouslyLoaded) {
-                        if (frame != null) {
-                          return child;
-                        } else {
-                          return Shimmer.fromColors(
-                            baseColor: Colors.grey[300]!,
-                            highlightColor: Colors.grey[100]!,
-                            child: Container(color: Colors.white),
-                          );
-                        }
-                      },
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent? loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child; // Return the image if loading is complete
-                        } else {
-                          return child; // Return the image with loading progress if it's still loading
-                        }
-                      },
-                    ),
-                  ),
-                ]),
+              SizedBox(
+                height: 30,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8),
+                child: CategoryList(
+                  types: Types,
+                  selectedIndex: selectedIndex,
+                ),
               ),
               SizedBox(
                 height: 30,
