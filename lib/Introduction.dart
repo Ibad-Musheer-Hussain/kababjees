@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:kababjees/HomeScreen.dart';
+import 'package:kababjees/Special.dart';
 import 'package:lottie/lottie.dart';
 
 class Introduction extends StatefulWidget {
@@ -27,7 +28,7 @@ class _IntroductionState extends State<Introduction> {
 
   void _onIntroEnd(BuildContext context) {
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const Homescreen()),
+      MaterialPageRoute(builder: (_) => Specials()),
     );
   }
 
@@ -35,14 +36,13 @@ class _IntroductionState extends State<Introduction> {
   Widget build(BuildContext context) {
     return Stack(fit: StackFit.expand, children: [
       Image.asset(
-        'lib/assets/background.jpeg', // Replace with your image asset path
+        'lib/assets/background3.jpg',
         fit: BoxFit.cover,
       ),
       BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+        filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
         child: Container(
-          color: Colors.black
-              .withOpacity(0), // Transparent color to apply blur effect
+          color: Colors.black.withOpacity(0),
         ),
       ),
       Positioned.fill(

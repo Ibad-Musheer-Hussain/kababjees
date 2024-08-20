@@ -27,8 +27,8 @@ class _CustomdrawerState extends State<Customdrawer> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0x020616).withAlpha(70),
-              Color(0xFFffffff).withAlpha(75),
+              Color(0xFFffffff).withAlpha(25),
+              Color(0xFFffffff).withAlpha(15),
             ],
             stops: [
               0.1,
@@ -71,13 +71,13 @@ class _CustomdrawerState extends State<Customdrawer> {
               builder: (context, cartProvider, child) {
                 final cart = cartProvider.cart.items;
                 return Container(
-                  height: 700,
+                  height: 530,
                   child: ListView.builder(
                     itemCount: cart.length,
                     itemBuilder: (context, index) {
                       final item = cart[index];
                       return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40),
+                        padding: const EdgeInsets.symmetric(vertical: 15),
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.45,
                           height: 150,
@@ -87,7 +87,7 @@ class _CustomdrawerState extends State<Customdrawer> {
                                   width:
                                       MediaQuery.of(context).size.width * 0.3,
                                   fit: BoxFit.fitWidth,
-                                  "https://firebasestorage.googleapis.com/v0/b/biddy-45c49.appspot.com/o/Layer%201.png?alt=media&token=0c337285-c71c-415d-a223-190e6705a25e"),
+                                  item.titleimage),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
@@ -144,28 +144,27 @@ class _CustomdrawerState extends State<Customdrawer> {
             ),
             Consumer<CartProvider>(
               builder: (context, cartProvider, child) {
-                return Text(
-                  'Total Price: ${cartProvider.totalPrice}',
-                  style: TextStyle(color: Colors.white),
-                );
+                return ListTile(
+                    title: Text(
+                      'Total Price ${cartProvider.totalPrice}',
+                      style: TextStyle(color: Colors.white, fontSize: 17),
+                    ),
+                    trailing: Container(
+                      width: 40.0,
+                      height: 40.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white54,
+                      ),
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/cartPage');
+                        },
+                        icon: Icon(Icons.shopping_cart),
+                        color: Colors.black,
+                      ),
+                    ));
               },
-            ),
-            Center(
-              child: Container(
-                width: 40.0,
-                height: 40.0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white54,
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/cartPage');
-                  },
-                  icon: Icon(Icons.shopping_cart),
-                  color: Colors.black,
-                ),
-              ),
             ),
           ],
         ),

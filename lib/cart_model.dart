@@ -35,6 +35,28 @@ class Cart {
     items.removeWhere((item) => item.id == id);
   }
 
+  void increment(Items item) {
+    final existingItemIndex = items.indexWhere((i) => i.id == item.id);
+    items[existingItemIndex].quantity;
+    if (items[existingItemIndex].quantity > 98) {
+    } else {
+      items[existingItemIndex].quantity++;
+    }
+  }
+
+  void decrement(Items item) {
+    final existingItemIndex = items.indexWhere((i) => i.id == item.id);
+    items[existingItemIndex].quantity;
+    if (items[existingItemIndex].quantity < 1) {
+    } else {
+      items[existingItemIndex].quantity--;
+    }
+  }
+
+  int itemPrice(Items item) {
+    return item.price * item.quantity;
+  }
+
   double get totalPrice {
     return items.fold(0, (sum, item) => sum + (item.price * item.quantity));
   }

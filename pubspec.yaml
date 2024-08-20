@@ -39,6 +39,8 @@ dependencies:
   provider: ^6.1.2
   simple_shadow: ^0.3.1
   google_nav_bar: ^5.0.6
+  circle_list: ^1.0.5
+  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:
@@ -74,11 +76,18 @@ flutter:
     - lib/assets/banner1.jpg
     - lib/assets/background.jpeg
     - lib/assets/background2.jpg
+    - lib/assets/background3.jpg
+    - lib/assets/Layer1.png
     - lib/assets/HeartAttack.png
     - lib/assets/images.png
     - lib/assets/hamburger.png
+    - lib/assets/burger.png
     - lib/assets/drinks.png
     - lib/assets/burrito.png
+    - lib/assets/bbq.png
+    - lib/assets/soup.png
+    - lib/assets/pizza.png
+    - lib/assets/topdown.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

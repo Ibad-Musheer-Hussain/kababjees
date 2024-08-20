@@ -18,12 +18,12 @@ class _StartPageState extends State<StartPage> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'lib/assets/background.jpeg', // Replace with your image asset path
+              'lib/assets/background3.jpg', // Replace with your image asset path
               fit: BoxFit.cover,
             ),
           ),
           BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+            filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
             child: Container(
               color: Colors.black
                   .withOpacity(0), // Transparent color to apply blur effect

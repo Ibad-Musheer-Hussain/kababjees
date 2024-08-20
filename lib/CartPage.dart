@@ -3,6 +3,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:kababjees/cart_provider.dart';
@@ -36,7 +37,7 @@ class _CartpageState extends State<Cartpage> {
         fit: StackFit.expand,
         children: [
           Image.asset(
-            'lib/assets/background.jpeg', // Replace with your image asset path
+            'lib/assets/background3.jpg', // Replace with your image asset path
             fit: BoxFit.cover,
           ),
           BackdropFilter(
@@ -69,169 +70,213 @@ class _CartpageState extends State<Cartpage> {
                             final item = cart[index];
                             final quantitycontroller = TextEditingController();
                             quantitycontroller.text = item.quantity.toString();
-                            return Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: GlassmorphicContainer(
-                                height: 270,
-                                width: 165,
-                                borderRadius: 12,
-                                blur: 0,
-                                alignment: Alignment.bottomCenter,
-                                border: 1,
-                                linearGradient: LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                    colors: [
-                                      Color(0x020616).withAlpha(40),
-                                      Color(0xFFffffff).withAlpha(75),
-                                    ],
-                                    stops: [
-                                      0.1,
-                                      0.5,
-                                    ]),
-                                borderGradient: LinearGradient(
-                                    begin: Alignment.bottomRight,
-                                    end: Alignment.topLeft,
-                                    colors: [
-                                      Color(0xFF4579C5).withAlpha(10),
-                                      Color(0xFFFFFFF).withAlpha(20),
-                                      Color(0xFFF75035).withAlpha(20),
-                                    ],
-                                    stops: [
-                                      0.6,
-                                      0.95,
-                                      1
-                                    ]),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                        child: Container(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              item.name,
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 28),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(2.0),
-                                              child: Text(
-                                                item.description,
+                            return Stack(children: [
+                              Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: GlassmorphicContainer(
+                                    height: 270,
+                                    width:
+                                        MediaQuery.of(context).size.width - 60,
+                                    borderRadius: 12,
+                                    blur: 8,
+                                    alignment: Alignment.bottomCenter,
+                                    border: 1,
+                                    linearGradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          Color(0xFFffffff).withAlpha(30),
+                                          Color(0xFFffffff).withAlpha(75),
+                                        ],
+                                        stops: [
+                                          0.1,
+                                          0.5,
+                                        ]),
+                                    borderGradient: LinearGradient(
+                                        begin: Alignment.bottomRight,
+                                        end: Alignment.topLeft,
+                                        colors: [
+                                          Color(0xFF4579C5).withAlpha(10),
+                                          Color(0xFFFFFFF).withAlpha(20),
+                                          Color(0xFFF75035).withAlpha(20),
+                                        ],
+                                        stops: [
+                                          0.6,
+                                          0.95,
+                                          1
+                                        ]),
+                                    child: Row(children: [
+                                      Container(
+                                        width: 200,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(13.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                item.name,
                                                 style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                ),
-                                                overflow: TextOverflow
-                                                    .ellipsis, // Truncate with ellipsis
-                                                maxLines:
-                                                    6, // Ensure text doesn't wrap to multiple lines
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(12.0),
-                                              child: Container(
-                                                decoration: BoxDecoration(
                                                     color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            14)),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    IconButton(
-                                                        onPressed: () {
-                                                          int temp = int.parse(
-                                                              quantitycontroller
-                                                                  .text
-                                                                  .toString());
-                                                          temp--;
-                                                          quantitycontroller
-                                                                  .text =
-                                                              temp.toString();
-                                                        },
-                                                        icon: Icon(
-                                                          Icons.remove,
-                                                          color: Colors.black,
-                                                        )),
-                                                    Container(
-                                                      width: 50,
-                                                      child: TextField(
-                                                        controller:
-                                                            quantitycontroller,
-                                                        keyboardType:
-                                                            TextInputType
-                                                                .number,
-                                                        inputFormatters: [
-                                                          FilteringTextInputFormatter
-                                                              .digitsOnly, // Allow only digits
-                                                          LengthLimitingTextInputFormatter(
-                                                              2), // Limit to two digits
-                                                        ],
-                                                        decoration:
-                                                            InputDecoration(
-                                                          border: InputBorder
-                                                              .none, // Transparent border
-                                                          enabledBorder:
-                                                              OutlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        12),
-                                                            borderSide: BorderSide
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(2.0),
+                                                child: Text(
+                                                  item.description,
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                  ),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 4,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(12.0),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              14)),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: [
+                                                      IconButton(
+                                                          onPressed: () {
+                                                            Provider.of<CartProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .decrement(
+                                                                    item);
+                                                          },
+                                                          icon: Icon(
+                                                            Icons.remove,
+                                                            color: Colors.black,
+                                                          )),
+                                                      Container(
+                                                        width: 50,
+                                                        child: TextField(
+                                                          controller:
+                                                              quantitycontroller,
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .number,
+                                                          inputFormatters: [
+                                                            FilteringTextInputFormatter
+                                                                .digitsOnly, // Allow only digits
+                                                            LengthLimitingTextInputFormatter(
+                                                                2), // Limit to two digits
+                                                          ],
+                                                          decoration:
+                                                              InputDecoration(
+                                                            border: InputBorder
                                                                 .none, // Transparent border
-                                                          ),
-                                                          focusedBorder:
-                                                              OutlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        12),
-                                                            borderSide: BorderSide
-                                                                .none, // Transparent border
+                                                            enabledBorder:
+                                                                OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12),
+                                                              borderSide: BorderSide
+                                                                  .none, // Transparent border
+                                                            ),
+                                                            focusedBorder:
+                                                                OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12),
+                                                              borderSide: BorderSide
+                                                                  .none, // Transparent border
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    IconButton(
-                                                        onPressed: () {
-                                                          int temp = int.parse(
-                                                              quantitycontroller
-                                                                  .text
-                                                                  .toString());
-                                                          temp++;
-                                                          quantitycontroller
-                                                                  .text =
-                                                              temp.toString();
-                                                        },
-                                                        icon: Icon(
-                                                          Icons.add,
-                                                          color: Colors.black,
-                                                        )),
-                                                  ],
+                                                      IconButton(
+                                                          onPressed: () {
+                                                            Provider.of<CartProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .increment(
+                                                                    item);
+                                                          },
+                                                          icon: Icon(
+                                                            Icons.add,
+                                                            color: Colors.black,
+                                                          )),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
-                                            )
-                                          ],
+                                              Consumer<CartProvider>(
+                                                builder: (context, cartProvider,
+                                                    child) {
+                                                  int itemPrice = int.parse(
+                                                          quantitycontroller
+                                                              .text) *
+                                                      item.quantity;
+                                                  return Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 8.0),
+                                                    child: Text(
+                                                      'Item Total: ${cartProvider.itemPrice(item)}',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    )),
-                                    Expanded(
-                                        child: Container(
-                                      child: Image.network(item.titleimage),
-                                    ))
-                                  ],
+                                    ]),
+                                  )),
+                              Positioned(
+                                right: 10,
+                                top: 60,
+                                child: Image.network(
+                                  item.titleimage,
+                                  cacheHeight: 170,
+                                  cacheWidth: 140,
                                 ),
                               ),
-                            );
+                              Positioned(
+                                  top: 20,
+                                  right: 35,
+                                  child: Container(
+                                    width: 40.0,
+                                    height: 40.0,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white54,
+                                    ),
+                                    child: IconButton(
+                                        onPressed: () {
+                                          cartProvider.removeItem(
+                                              item.id, item);
+                                        },
+                                        icon: Icon(
+                                          Icons.remove,
+                                          color: Colors.red,
+                                        )),
+                                  ))
+                            ]);
                           }),
                     );
                   },
@@ -240,24 +285,34 @@ class _CartpageState extends State<Cartpage> {
                   padding:
                       const EdgeInsets.only(bottom: 100, left: 30, right: 30),
                   child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.black87,
-                        borderRadius: BorderRadius.circular(14)),
-                    height: 60,
-                    child: Row(
-                      children: [
-                        Consumer<CartProvider>(
-                          builder: (context, cartProvider, child) {
-                            return Text(
-                              'Total Price: ${cartProvider.totalPrice}',
-                              style: TextStyle(color: Colors.white),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                )
+                      decoration: BoxDecoration(
+                          color: Colors.black87,
+                          borderRadius: BorderRadius.circular(14)),
+                      height: 60,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Consumer<CartProvider>(
+                            builder: (context, cartProvider, child) {
+                              return Text(
+                                'Total Price: ${cartProvider.totalPrice}',
+                                style: TextStyle(color: Colors.white),
+                              );
+                            },
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          FloatingActionButton.extended(
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black,
+                            onPressed: () {},
+                            label: Text("Checkout"),
+                            icon: Icon(Icons.credit_card),
+                          ),
+                        ],
+                      )),
+                ),
               ],
             ),
           ),

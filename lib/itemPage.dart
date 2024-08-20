@@ -72,11 +72,11 @@ class _ItempageState extends State<Itempage> {
           fit: StackFit.expand,
           children: [
             Image.asset(
-              'lib/assets/background.jpeg',
+              'lib/assets/background3.jpg',
               fit: BoxFit.cover,
             ),
             BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
+              filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
               child: Container(
                 color: Colors.black.withOpacity(0),
               ),
@@ -123,8 +123,7 @@ class _ItempageState extends State<Itempage> {
                   height: 70,
                 ),
                 SimpleShadow(
-                  child: Image.network(
-                      'https://firebasestorage.googleapis.com/v0/b/biddy-45c49.appspot.com/o/Layer%201.png?alt=media&token=0c337285-c71c-415d-a223-190e6705a25e'),
+                  child: Image.network(item.titleimage),
                   opacity: 1,
                   color: Colors.black,
                   offset: Offset(2, 8),
@@ -134,8 +133,8 @@ class _ItempageState extends State<Itempage> {
                   height: 30,
                 ),
                 Text(
-                  //"${item.name}",
-                  "Masala Fries",
+                  "${item.name}",
+                  //"Masala Fries",
                   style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
@@ -144,7 +143,8 @@ class _ItempageState extends State<Itempage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 18),
                   child: Text(
-                    "Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.",
+                    "${item.description}",
+                    //"Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 16,
@@ -155,14 +155,14 @@ class _ItempageState extends State<Itempage> {
               ],
             ),
             Positioned(
-              bottom: 50, // Distance from the bottom
-              left: 20, // Distance from the left
-              right: 20, // Distance from the right
+              bottom: 50,
+              left: 20,
+              right: 20,
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.9,
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.white70,
+                  color: Colors.black,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
@@ -179,21 +179,37 @@ class _ItempageState extends State<Itempage> {
                         onPressed: () {
                           _decrement();
                         },
-                        icon: Icon(Icons.remove)),
+                        icon: Icon(
+                          Icons.remove,
+                          color: Colors.white,
+                        )),
                     Container(
                       width: 50,
                       child: TextField(
                         controller: _controller,
                         keyboardType: TextInputType.number,
                         inputFormatters: [
-                          FilteringTextInputFormatter
-                              .digitsOnly, // Allow only digits
-                          LengthLimitingTextInputFormatter(
-                              2), // Limit to two digits
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(2),
                         ],
                         decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.black,
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12)),
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                        ),
+                        style: TextStyle(
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -201,7 +217,10 @@ class _ItempageState extends State<Itempage> {
                         onPressed: () {
                           _increment();
                         },
-                        icon: Icon(Icons.add)),
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        )),
                     Spacer(),
                     InkWell(
                       onTap: () {
@@ -211,6 +230,7 @@ class _ItempageState extends State<Itempage> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
+                            color: Colors.white,
                             border: Border.all(width: 1),
                             borderRadius: BorderRadius.circular(12)),
                         child: Padding(
@@ -218,7 +238,7 @@ class _ItempageState extends State<Itempage> {
                           child: Row(
                             children: [
                               Icon(Icons.shopping_cart),
-                              Text("Add to cart")
+                              Text("Set Amount")
                             ],
                           ),
                         ),

@@ -3,18 +3,20 @@ import 'package:flutter/material.dart';
 class Type {
   final String name;
   final String icon;
+  final Color color;
 
-  Type({required this.name, required this.icon});
+  Type({required this.name, required this.icon, required this.color});
 }
-
 
 class CategoryList extends StatefulWidget {
   final List<Type> types;
   final int selectedIndex;
+  final Function onCategoryTap;
 
   CategoryList({
     required this.types,
     required this.selectedIndex,
+    required this.onCategoryTap,
   });
 
   @override
@@ -42,19 +44,17 @@ class _CategoryListState extends State<CategoryList> {
           Type type = widget.types[index];
           return GestureDetector(
             onTap: () {
-              //widget.onCategoryTap(index);
+              widget.onCategoryTap(index);
             },
             child: Container(
               margin: EdgeInsets.only(right: 8.0, left: 4),
               decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(14)),
+                  color: type.color, borderRadius: BorderRadius.circular(14)),
               height: 20,
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Image.asset(
-                    type.icon
-                  ),
+                  child: Image.asset(type.icon),
                 ),
               ),
             ),

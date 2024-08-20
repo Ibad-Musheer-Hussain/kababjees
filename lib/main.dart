@@ -4,6 +4,8 @@ import 'package:kababjees/HomeScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:kababjees/Introduction.dart';
 import 'package:kababjees/itemPage.dart';
+import 'package:kababjees/landingPage.dart';
+import 'package:kababjees/Special.dart';
 import 'package:provider/provider.dart';
 import 'package:kababjees/cart_provider.dart';
 import 'package:kababjees/StartPage.dart';
@@ -36,9 +38,10 @@ class MyApp extends StatelessWidget {
         '/HomeScreen': (context) => Homescreen(),
         '/itemPage': (context) => Itempage(),
         '/introduction': (context) => Introduction(),
-        '/cartPage': (context) => Cartpage()
+        '/cartPage': (context) => Cartpage(),
+        '/specials': (context) => Specials()
       },
-      home: StartPage(),
+      home: Introduction(),
     );
   }
 }
