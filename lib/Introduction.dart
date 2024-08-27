@@ -1,10 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:kababjees/HomeScreen.dart';
-import 'package:kababjees/Special.dart';
+import 'package:kababjees/landingPage.dart';
 import 'package:lottie/lottie.dart';
 
 class Introduction extends StatefulWidget {
@@ -24,11 +24,12 @@ class _IntroductionState extends State<Introduction> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   }
 
   void _onIntroEnd(BuildContext context) {
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => Specials()),
+      MaterialPageRoute(builder: (_) => Landingpage()),
     );
   }
 
@@ -47,9 +48,9 @@ class _IntroductionState extends State<Introduction> {
       ),
       Positioned.fill(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
           child: GlassmorphicContainer(
-            height: 370,
+            height: 350,
             width: 175,
             borderRadius: 12,
             blur: 0,

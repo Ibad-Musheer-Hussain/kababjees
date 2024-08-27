@@ -1,8 +1,8 @@
-import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:circle_list/circle_list.dart';
 import 'package:kababjees/HomeScreen.dart';
+import 'package:kababjees/Scan.dart';
 
 class Specials extends StatefulWidget {
   @override
@@ -11,101 +11,92 @@ class Specials extends StatefulWidget {
 
 class _SpecialsState extends State<Specials>
     with SingleTickerProviderStateMixin {
-  int _selectedIndex = -1;
-  String centerText = "Masala Fries1";
+  int _selectedIndex = 0;
+  String centerText = "XL Pizza Slice";
   late Items selectedItem;
 
   List<Items> rotateList = [
     Items(
-        id: 3,
-        name: 'Masala Fries1',
-        price: 499,
-        quantity: 1,
-        description:
-            'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
-        category: Category(id: 1, description: "asd", name: "Burgers"),
-        titleimage: 'lib/assets/topdown.png',
-        ingredient: ["Buns", "Beef"]),
+      id: 3,
+      name: 'XL Pizza Slice',
+      price: 499,
+      quantity: 1,
+      description:
+          'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
+      titleimage: 'lib/assets/topdown.png',
+    ),
     Items(
-        id: 3,
-        name: 'Masala Fries2',
-        price: 499,
-        quantity: 1,
-        description:
-            'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
-        category: Category(id: 1, description: "asd", name: "Burgers"),
-        titleimage: 'lib/assets/burger.png',
-        ingredient: ["Buns", "Beef"]),
+      id: 3,
+      name: 'Burger ',
+      price: 499,
+      quantity: 1,
+      description:
+          'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
+      titleimage: 'lib/assets/burger.png',
+    ),
     Items(
-        id: 3,
-        name: 'Masala Fries3',
-        price: 499,
-        quantity: 1,
-        description:
-            'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
-        category: Category(id: 1, description: "asd", name: "Burgers"),
-        titleimage: 'lib/assets/Layer1.png',
-        ingredient: ["Buns", "Beef"]),
+      id: 3,
+      name: 'Masala Fries',
+      price: 499,
+      quantity: 1,
+      description:
+          'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
+      titleimage: 'lib/assets/Layer1.png',
+    ),
     Items(
-        id: 3,
-        name: 'Masala Fries4',
-        price: 499,
-        quantity: 1,
-        description:
-            'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
-        category: Category(id: 1, description: "asd", name: "Burgers"),
-        titleimage: 'lib/assets/topdown.png',
-        ingredient: ["Buns", "Beef"]),
+      id: 3,
+      name: '24" Slice',
+      price: 499,
+      quantity: 1,
+      description:
+          'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
+      titleimage: 'lib/assets/topdown.png',
+    ),
     Items(
-        id: 3,
-        name: 'Masala Fries5',
-        price: 499,
-        quantity: 1,
-        description:
-            'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
-        category: Category(id: 1, description: "asd", name: "Burgers"),
-        titleimage: 'lib/assets/Layer1.png',
-        ingredient: ["Buns", "Beef"]),
+      id: 3,
+      name: 'Salted Fries',
+      price: 499,
+      quantity: 1,
+      description:
+          'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
+      titleimage: 'lib/assets/Layer1.png',
+    ),
     Items(
-        id: 3,
-        name: 'Masala Fries6',
-        price: 499,
-        quantity: 1,
-        description:
-            'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
-        category: Category(id: 1, description: "asd", name: "Burgers"),
-        titleimage: 'lib/assets/burger.png',
-        ingredient: ["Buns", "Beef"]),
+      id: 3,
+      name: 'Beef Combo',
+      price: 499,
+      quantity: 1,
+      description:
+          'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
+      titleimage: 'lib/assets/burger.png',
+    ),
     Items(
-        id: 3,
-        name: 'Masala Fries7',
-        price: 499,
-        quantity: 1,
-        description:
-            'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
-        category: Category(id: 1, description: "asd", name: "Burgers"),
-        titleimage: 'lib/assets/topdown.png',
-        ingredient: ["Buns", "Beef"]),
+      id: 3,
+      name: 'Large Slice',
+      price: 499,
+      quantity: 1,
+      description:
+          'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
+      titleimage: 'lib/assets/topdown.png',
+    ),
     Items(
-        id: 3,
-        name: 'Masala Fries8',
-        price: 499,
-        quantity: 1,
-        description:
-            'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
-        category: Category(id: 1, description: "asd", name: "Burgers"),
-        titleimage: 'lib/assets/Layer1.png',
-        ingredient: ["Buns", "Beef"]),
+      id: 3,
+      name: 'Garlic Fries',
+      price: 499,
+      quantity: 1,
+      description:
+          'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
+      titleimage: 'lib/assets/Layer1.png',
+    ),
     Items(
-        id: 3,
-        name: 'Masala Fries9',
-        price: 499,
-        quantity: 1,
-        description:
-            'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
-        category: Category(id: 1, description: "asd", name: "Burgers"),
-        titleimage: 'lib/assets/topdown.png',
-        ingredient: ["Buns", "Beef"]),
+      id: 3,
+      name: 'Ranch Slice',
+      price: 499,
+      quantity: 1,
+      description:
+          'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
+      titleimage: 'lib/assets/topdown.png',
+    ),
   ];
 
   @override
@@ -141,19 +132,19 @@ class _SpecialsState extends State<Specials>
               color: Colors.black.withOpacity(0),
             ),
           ),
-          Center(
-              child: Stack(
+          Stack(
             children: [
               Positioned(
-                  left: MediaQuery.of(context).size.width - 120,
+                  top: 30,
+                  left: MediaQuery.of(context).size.width - 130,
                   //right: 80,
                   child: Container(
-                    width: 100,
+                    width: 120,
                     child: Text(
-                      "Today's Special",
+                      "Picked\nFor You",
                       style: TextStyle(
                           color: Colors.black87,
-                          fontSize: 28,
+                          fontSize: 32,
                           fontWeight: FontWeight.bold),
                     ),
                   )),
@@ -168,8 +159,8 @@ class _SpecialsState extends State<Specials>
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        Color.fromARGB(221, 17, 17, 17),
-                        Color.fromARGB(221, 17, 17, 17),
+                        Color(0x020616).withAlpha(18),
+                        Color.fromARGB(124, 193, 195, 202),
                       ],
                       stops: [0.7, 0.8],
                     ),
@@ -206,7 +197,7 @@ class _SpecialsState extends State<Specials>
                   child: GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, '/itemPage',
-                          arguments: {'item': selectedItem});
+                          arguments: {'item': rotateList[_selectedIndex]});
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -229,7 +220,8 @@ class _SpecialsState extends State<Specials>
                   return GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedIndex = isSelected ? -1 : index;
+                        print(index);
+                        _selectedIndex = isSelected ? 1 : index;
                         centerText = rotateItem.name;
                       });
                     },
@@ -245,10 +237,88 @@ class _SpecialsState extends State<Specials>
                   );
                 }),
               ),
+              Positioned(
+                  bottom: 0,
+                  right: 0,
+                  left: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(18)),
+                    height: 70,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (_) => Homescreen()),
+                                  );
+                                },
+                                icon: Icon(Icons.restaurant_menu,
+                                    color: Colors.white)),
+                            Text(
+                              "Menu",
+                              style: TextStyle(color: Colors.white),
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.local_offer_outlined,
+                                    color: Color.fromARGB(255, 202, 40, 29)
+                                        .withAlpha(240))),
+                            Text(
+                              "For You",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 202, 40, 29)
+                                      .withAlpha(240)),
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(builder: (_) => Scan()),
+                                  );
+                                },
+                                icon: Icon(Icons.create_outlined,
+                                    color: Colors.white)),
+                            Text(
+                              "Scan",
+                              style: TextStyle(color: Colors.white),
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/cartPage');
+                                },
+                                icon: Icon(Icons.shopping_cart_outlined,
+                                    color: Colors.white)),
+                            Text(
+                              "Your Order",
+                              style: TextStyle(color: Colors.white),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ))
             ],
-          )),
+          ),
         ],
       ),
+      /*
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       floatingActionButton: GestureDetector(
         onTap: () {
@@ -269,7 +339,7 @@ class _SpecialsState extends State<Specials>
             ),
           ),
         ),
-      ),
+      ),*/
     );
   }
 }

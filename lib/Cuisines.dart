@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
-import 'package:kababjees/cart_provider.dart';
-import 'package:provider/provider.dart';
 
 class Cuisines extends StatelessWidget {
   final dynamic item;
@@ -28,29 +26,34 @@ class Cuisines extends StatelessWidget {
               child: GlassmorphicContainer(
                 height: 100,
                 width: 110,
-                borderRadius: 12,
-                blur: 8,
+                borderRadius: 16,
+                blur: 0.3,
                 alignment: Alignment.bottomCenter,
-                border: 1,
+                border: 2,
                 linearGradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    const Color(0x020616).withAlpha(40),
-                    const Color(0x020616).withAlpha(65),
-                  ],
-                  stops: const [0.1, 0.5],
-                ),
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0x020616).withAlpha(18),
+                      Color.fromARGB(124, 193, 195, 202),
+                    ],
+                    stops: [
+                      0.1,
+                      0.8,
+                    ]),
                 borderGradient: LinearGradient(
-                  begin: Alignment.bottomRight,
-                  end: Alignment.topLeft,
-                  colors: [
-                    const Color(0xFF4579C5).withAlpha(10),
-                    const Color(0xFFFFFFF).withAlpha(20),
-                    const Color(0xFFF75035).withAlpha(20),
-                  ],
-                  stops: const [0.6, 0.95, 1],
-                ),
+                    begin: Alignment.bottomRight,
+                    end: Alignment.topLeft,
+                    colors: [
+                      Color(0xFF4579C5).withAlpha(10),
+                      Color(0xFFFFFFF).withAlpha(20),
+                      Color(0xFFF75035).withAlpha(20),
+                    ],
+                    stops: [
+                      0.6,
+                      0.95,
+                      1
+                    ]),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,

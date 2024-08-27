@@ -41,6 +41,9 @@ dependencies:
   google_nav_bar: ^5.0.6
   circle_list: ^1.0.5
   font_awesome_flutter: ^10.7.0
+  get: ^4.6.5
+  http: ^1.2.2
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
@@ -74,20 +77,24 @@ flutter:
     - lib/assets/ordering.json
     - lib/assets/delivery.json
     - lib/assets/banner1.jpg
-    - lib/assets/background.jpeg
-    - lib/assets/background2.jpg
     - lib/assets/background3.jpg
     - lib/assets/Layer1.png
     - lib/assets/HeartAttack.png
     - lib/assets/images.png
-    - lib/assets/hamburger.png
     - lib/assets/burger.png
-    - lib/assets/drinks.png
-    - lib/assets/burrito.png
-    - lib/assets/bbq.png
-    - lib/assets/soup.png
-    - lib/assets/pizza.png
     - lib/assets/topdown.png
+    - lib/assets/location2.png
+    - lib/assets/friesLong.png
+    - lib/assets/home.json
+    - lib/assets/chef2.json
+    - lib/assets/chef3.json
+    - lib/assets/chef4.json
+    - lib/assets/chef5.json
+    - lib/assets/delivery.png
+    - lib/assets/pickup.svg
+    - lib/assets/scan.jpg
+    - lib/assets/veg2.png
+    - lib/assets/veg3.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

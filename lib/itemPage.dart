@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:glassmorphism/glassmorphism.dart';
@@ -54,13 +53,13 @@ class _ItempageState extends State<Itempage> {
               },
               icon: Icon(
                 Icons.arrow_back,
-                color: Colors.white,
+                color: Color.fromARGB(255, 202, 40, 29),
               )),
           actions: [
             IconButton(
               icon: Icon(
                 Icons.shopping_cart,
-                color: Colors.white,
+                color: Color.fromARGB(255, 202, 40, 29),
               ),
               onPressed: () {
                 _scaffoldKey.currentState?.openEndDrawer();
@@ -87,20 +86,20 @@ class _ItempageState extends State<Itempage> {
               child: GlassmorphicContainer(
                 height: 210,
                 width: 200,
-                borderRadius: 12,
-                blur: 0,
+                borderRadius: 16,
+                blur: 0.3,
                 alignment: Alignment.bottomCenter,
-                border: 1,
+                border: 2,
                 linearGradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Color(0x020616).withAlpha(40),
-                      Color(0xFFffffff).withAlpha(75),
+                      Color(0x020616).withAlpha(18),
+                      Color.fromARGB(124, 193, 195, 202),
                     ],
                     stops: [
                       0.1,
-                      0.5,
+                      0.8,
                     ]),
                 borderGradient: LinearGradient(
                     begin: Alignment.bottomRight,

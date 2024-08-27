@@ -4,17 +4,20 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:kababjees/Cuisines.dart';
 import 'package:kababjees/CustomDrawer.dart';
-import 'package:kababjees/cart_provider.dart';
+import 'package:kababjees/Delivery.dart';
+import 'package:kababjees/ExpandableButton.dart';
+import 'package:kababjees/Scan.dart';
 import 'package:kababjees/Special.dart';
 import 'package:kababjees/itemCard.dart';
-import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:http/http.dart' as http;
-import 'package:kababjees/CategoryList.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lottie/lottie.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -24,38 +27,41 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
+  bool _isExpanded = false;
+  int _quantity = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final DeliveryMethod counterController = Get.put(DeliveryMethod());
   List<Items> ItemList = [
     Items(
-        id: 3,
-        name: 'Masala Fries',
-        price: 499,
-        quantity: 1,
-        description:
-            'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
-        category: Category(id: 1, description: "asd", name: "Burgers"),
-        titleimage: 'https://firebasestorage.googleapis.com/v0/b/biddy-45c49.appspot.com/o/Layer%201.png?alt=media&token=0c337285-c71c-415d-a223-190e6705a25e',
-        ingredient: ["Buns", "Beef"]),
+      id: 3,
+      name: 'Masala Fries',
+      price: 499,
+      quantity: 1,
+      description:
+          'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
+      titleimage:
+          'https://firebasestorage.googleapis.com/v0/b/biddy-45c49.appspot.com/o/Layer%201.png?alt=media&token=0c337285-c71c-415d-a223-190e6705a25e',
+    ),
     Items(
-        id: 3,
-        name: 'Masala Fries',
-        price: 499,
-        quantity: 1,
-        description:
-            'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
-        category: Category(id: 1, description: "asd", name: "Burgers"),
-        titleimage: 'https://firebasestorage.googleapis.com/v0/b/biddy-45c49.appspot.com/o/Layer%201.png?alt=media&token=0c337285-c71c-415d-a223-190e6705a25e',
-        ingredient: ["Buns", "Beef"]),
+      id: 4,
+      name: 'Masala Fries',
+      price: 499,
+      quantity: 1,
+      description:
+          'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
+      titleimage:
+          'https://firebasestorage.googleapis.com/v0/b/biddy-45c49.appspot.com/o/Layer%201.png?alt=media&token=0c337285-c71c-415d-a223-190e6705a25e',
+    ),
     Items(
-        id: 3,
-        name: 'Plain Fries',
-        price: 399,
-        quantity: 1,
-        description:
-            'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
-        category: Category(id: 1, description: "asd", name: "Burgers"),
-        titleimage: 'https://firebasestorage.googleapis.com/v0/b/biddy-45c49.appspot.com/o/Layer%201.png?alt=media&token=0c337285-c71c-415d-a223-190e6705a25e',
-        ingredient: ["Buns", "Beef"]),
+      id: 3,
+      name: 'Plain Fries',
+      price: 399,
+      quantity: 1,
+      description:
+          'Savor our Masala Fries, coated in a spicy masala mix for an Indian-inspired flavor. Perfect as a snack, offering a delicious blend of spicy and herb-infused goodness.',
+      titleimage:
+          'https://firebasestorage.googleapis.com/v0/b/biddy-45c49.appspot.com/o/Layer%201.png?alt=media&token=0c337285-c71c-415d-a223-190e6705a25e',
+    ),
   ];
 
   final PageController _pageController = PageController();
@@ -63,6 +69,8 @@ class _HomescreenState extends State<Homescreen> {
   int _currentPage = 0;
   List<dynamic> AllIDS = [];
   int index = 0;
+
+  int isDelivery = 0;
 
   final List<String> _banners = [
     'lib/assets/banner1.jpg',
@@ -72,29 +80,12 @@ class _HomescreenState extends State<Homescreen> {
 
   int selectedIndex = 0;
 
-  Color _color = Colors.blue;
-
-  void _changeColor(int selectedIndex) {
-    print(selectedIndex);
-    Color newColor = Colors.grey;
-    if (selectedIndex == 0) {
-      newColor = Colors.yellow;
-    } else if (selectedIndex == 1) {
-      newColor = Colors.red;
-    } else {
-      newColor = Colors.black;
-    }
-
-    setState(() {
-      _color = newColor;
-    });
-  }
-
   @override
   void initState() {
     super.initState();
     fetchIDS();
     _startAutoScroll();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   }
 
   @override
@@ -121,7 +112,7 @@ class _HomescreenState extends State<Homescreen> {
     try {
       for (var id in ids) {
         final response = await http
-            .get(Uri.parse('http://192.168.18.100:8080/api/items/$id'));
+            .get(Uri.parse('http://192.168.18.124:8080/api/items/$id'));
         if (response.statusCode == 200) {
           Map<String, dynamic> data = json.decode(response.body);
           print('Data for ID $id: $data');
@@ -143,7 +134,7 @@ class _HomescreenState extends State<Homescreen> {
   Future<void> fetchIDS() async {
     try {
       final response =
-          await http.get(Uri.parse('http://192.168.18.100:8080/api/items/ids'));
+          await http.get(Uri.parse('http://192.168.18.124:8080/api/items/ids'));
       print(response.statusCode);
       if (response.statusCode == 200 || response.statusCode == 300) {
         AllIDS = json.decode(response.body);
@@ -158,12 +149,6 @@ class _HomescreenState extends State<Homescreen> {
     print("all fetched successfully");
   }
 
-  List<Type> Types = [
-    Type(name: "burger", icon: "lib/assets/hamburger.png", color: Colors.amber),
-    Type(name: "Burrito", icon: "lib/assets/burrito.png", color: Colors.red),
-    Type(name: "Drinks", icon: "lib/assets/drinks.png", color: Colors.black),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -173,22 +158,58 @@ class _HomescreenState extends State<Homescreen> {
           backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
           scrolledUnderElevation: 0,
-          title: Icon(
-            Icons.menu,
-            color: Colors.transparent,
+          title: GestureDetector(
+            onTap: () {
+              Get.to(() => DeliveryPage());
+            },
+            child: Row(
+              children: [
+                ClipRect(
+                  child: Align(
+                    alignment: Alignment
+                        .topLeft, // Adjust alignment to focus on the area you want to display
+                    widthFactor: 0.8, // Horizontal cropping factor (0.0 to 1.0)
+                    heightFactor: 0.8, // Vertical cropping factor (0.0 to 1.0)
+                    child: SvgPicture.asset(
+                      height: 60,
+                      'lib/assets/pickup.svg',
+                      // ignore: deprecated_member_use
+                      color: Color.fromARGB(255, 202, 40, 29),
+                      fit: BoxFit
+                          .cover, // Adjust fit as needed (e.g., BoxFit.contain, BoxFit.fill)
+                    ),
+                  ),
+                ),
+                Text(
+                  counterController.isDelivery.value == 1
+                      ? ' Delivery'
+                      : counterController.isDelivery.value == 0
+                          ? ' Pickup'
+                          : ' None',
+                  style: TextStyle(
+                      fontSize: 28,
+                      color: Color.fromARGB(255, 202, 40, 29),
+                      fontWeight: FontWeight.w500),
+                ),
+                Icon(
+                  Icons.expand_more,
+                  color: Color.fromARGB(255, 202, 40, 29),
+                )
+              ],
+            ),
           ),
           actions: [
             IconButton(
               icon: Icon(
                 Icons.search,
-                color: Colors.black,
+                color: Color.fromARGB(255, 202, 40, 29),
               ),
               onPressed: () {},
             ),
             IconButton(
               icon: Icon(
-                Icons.shopping_cart,
-                color: Colors.black,
+                Icons.shopping_bag,
+                color: Color.fromARGB(255, 202, 40, 29),
               ),
               onPressed: () {
                 _scaffoldKey.currentState?.openEndDrawer();
@@ -198,23 +219,16 @@ class _HomescreenState extends State<Homescreen> {
         ),
         body: Stack(fit: StackFit.expand, children: [
           Image.asset(
-            'lib/assets/background3.jpg', // Replace with your image asset path
+            'lib/assets/background3.jpg',
             fit: BoxFit.cover,
           ),
           BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
             child: Container(
-              color: Colors.black
-                  .withOpacity(0), // Transparent color to apply blur effect
+              color: Colors.black.withOpacity(0),
             ),
           ),
           Container(
-            decoration: BoxDecoration(
-                //color: Color.fromARGB(245, 2, 7, 22)
-                //color: Colors.white
-                //gradient: LinearGradient(begin: Alignment.topRight,end: Alignment.bottomLeft,stops: [0.3,0.8,0.9],
-                //colors: [Color.fromARGB(235, 192, 12, 12),Color.fromARGB(255, 255, 101, 0),Color.fromARGB(255, 255, 138, 8)])
-                ),
             child: ListView(children: [
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 28),
@@ -223,12 +237,13 @@ class _HomescreenState extends State<Homescreen> {
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black.withAlpha(240)),
+                        color: const Color.fromARGB(255, 202, 40, 29)
+                            .withAlpha(240)),
                   )),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Container(
-                  height: 150.0,
+                  height: 120.0,
                   child: PageView.builder(
                     controller: _pageController,
                     itemCount: _banners.length,
@@ -248,7 +263,7 @@ class _HomescreenState extends State<Homescreen> {
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black.withAlpha(240)),
+                        color: Color.fromARGB(255, 202, 40, 29).withAlpha(240)),
                   )),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -258,24 +273,24 @@ class _HomescreenState extends State<Homescreen> {
                   children: [
                     Stack(children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 115.0),
+                        padding: const EdgeInsets.only(top: 105.0),
                         child: GlassmorphicContainer(
-                          height: 350,
+                          height: 300,
                           width: 175,
-                          borderRadius: 12,
-                          blur: 8,
+                          borderRadius: 16,
+                          blur: 0.3,
                           alignment: Alignment.bottomCenter,
-                          border: 1,
+                          border: 2,
                           linearGradient: LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                Color(0x020616).withAlpha(40),
-                                Color(0x020616).withAlpha(65),
+                                Color(0x020616).withAlpha(18),
+                                Color.fromARGB(124, 193, 195, 202),
                               ],
                               stops: [
                                 0.1,
-                                0.5,
+                                0.8,
                               ]),
                           borderGradient: LinearGradient(
                               begin: Alignment.bottomRight,
@@ -314,32 +329,14 @@ class _HomescreenState extends State<Homescreen> {
                         ),
                       ),
                       Positioned(
-                        bottom: -4,
-                        right: 5,
-                        child: Container(
-                          width: 35,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.black87,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
-                              bottomRight: Radius.circular(50),
-                              bottomLeft: Radius.circular(20),
-                            ),
-                          ),
-                          child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.shopping_cart,
-                                color: Colors.white70,
-                              )),
-                        ),
+                        bottom: -2,
+                        right: 0,
+                        child: ExpandableButton(item: ItemList.elementAt(1)),
                       ),
                       Image.asset(
                         "lib/assets/HeartAttack.png",
-                        width: 180,
-                        height: 370,
+                        width: 155,
+                        height: 320,
                         fit: BoxFit.fitHeight,
                         frameBuilder: (BuildContext context, Widget child,
                             int? frame, bool wasSynchronouslyLoaded) {
@@ -355,226 +352,92 @@ class _HomescreenState extends State<Homescreen> {
                         },
                       ),
                     ]),
-                    Column(
-                      children: [
-                        Stack(children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
-                            child: GlassmorphicContainer(
-                              height: 200,
-                              width: 160,
-                              borderRadius: 12,
-                              blur: 8,
-                              alignment: Alignment.bottomCenter,
-                              border: 1,
-                              linearGradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    Color(0x020616).withAlpha(40),
-                                    Color(0x020616).withAlpha(65),
-                                  ],
-                                  stops: [
-                                    0.1,
-                                    0.5,
-                                  ]),
-                              borderGradient: LinearGradient(
-                                  begin: Alignment.bottomRight,
-                                  end: Alignment.topLeft,
-                                  colors: [
-                                    Color(0xFF4579C5).withAlpha(10),
-                                    Color(0xFFFFFFF).withAlpha(20),
-                                    Color(0xFFF75035).withAlpha(20),
-                                  ],
-                                  stops: [
-                                    0.6,
-                                    0.95,
-                                    1
-                                  ]),
-                              child: Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      "Fries                       ",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    ),
-                                    Text(
-                                      '900',
-                                      style: const TextStyle(
-                                          fontSize: 18, color: Colors.white),
-                                    ),
-                                  ],
+                    Stack(children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 115.0, left: 3),
+                        child: GlassmorphicContainer(
+                          height: 300,
+                          width: 165,
+                          borderRadius: 16,
+                          blur: 0.3,
+                          alignment: Alignment.bottomCenter,
+                          border: 2,
+                          linearGradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Color(0x020616).withAlpha(18),
+                                Color.fromARGB(124, 193, 195, 202),
+                              ],
+                              stops: [
+                                0.1,
+                                0.8,
+                              ]),
+                          borderGradient: LinearGradient(
+                              begin: Alignment.bottomRight,
+                              end: Alignment.topLeft,
+                              colors: [
+                                Color(0xFF4579C5).withAlpha(10),
+                                Color(0xFFFFFFF).withAlpha(20),
+                                Color(0xFFF75035).withAlpha(20),
+                              ],
+                              stops: [
+                                0.6,
+                                0.95,
+                                1
+                              ]),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "Special Fries              ",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
                                 ),
-                              ),
+                                Text(
+                                  '900',
+                                  style: const TextStyle(
+                                      fontSize: 18, color: Colors.white),
+                                ),
+                              ],
                             ),
                           ),
-                          Positioned(
-                            bottom: -2,
-                            right: 0,
-                            child: Container(
-                              width: 35,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: Colors.black87,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                  bottomRight: Radius.circular(50),
-                                  bottomLeft: Radius.circular(20),
-                                ),
-                              ),
-                              child: IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    Icons.shopping_cart,
-                                    color: Colors.white70,
-                                  )),
-                            ),
-                          ),
-                          Image.network(
-                            "https://firebasestorage.googleapis.com/v0/b/biddy-45c49.appspot.com/o/Layer%201.png?alt=media&token=0c337285-c71c-415d-a223-190e6705a25e",
-                            width: 160,
-                            height: 160,
-                            cacheHeight: 160,
-                            cacheWidth: 160,
-                            frameBuilder: (BuildContext context, Widget child,
-                                int? frame, bool wasSynchronouslyLoaded) {
-                              if (frame != null) {
-                                return child;
-                              } else {
-                                return Shimmer.fromColors(
-                                  baseColor: Colors.grey[300]!,
-                                  highlightColor: Colors.grey[100]!,
-                                  child: Container(color: Colors.white),
-                                );
-                              }
-                            },
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child;
-                              } else {
-                                return child;
-                              }
-                            },
-                          ),
-                        ]),
-                        Stack(children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
-                            child: GlassmorphicContainer(
-                              height: 200,
-                              width: 160,
-                              borderRadius: 12,
-                              blur: 8,
-                              alignment: Alignment.bottomCenter,
-                              border: 1,
-                              linearGradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    Color(0x020616).withAlpha(40),
-                                    Color(0x020616).withAlpha(65),
-                                  ],
-                                  stops: [
-                                    0.1,
-                                    0.5,
-                                  ]),
-                              borderGradient: LinearGradient(
-                                  begin: Alignment.bottomRight,
-                                  end: Alignment.topLeft,
-                                  colors: [
-                                    Color(0xFF4579C5).withAlpha(10),
-                                    Color(0xFFFFFFF).withAlpha(20),
-                                    Color(0xFFF75035).withAlpha(20),
-                                  ],
-                                  stops: [
-                                    0.6,
-                                    0.95,
-                                    1
-                                  ]),
-                              child: Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      "Chips                       ",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    ),
-                                    Text(
-                                      '900',
-                                      style: const TextStyle(
-                                          fontSize: 18, color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: -2,
-                            right: 0,
-                            child: Container(
-                              width: 35,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: Colors.black87,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                  bottomRight: Radius.circular(50),
-                                  bottomLeft: Radius.circular(20),
-                                ),
-                              ),
-                              child: IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    Icons.shopping_cart,
-                                    color: Colors.white70,
-                                  )),
-                            ),
-                          ),
-                          Image.network(
-                            "https://firebasestorage.googleapis.com/v0/b/biddy-45c49.appspot.com/o/Layer%201.png?alt=media&token=0c337285-c71c-415d-a223-190e6705a25e",
-                            width: 160,
-                            height: 160,
-                            cacheHeight: 160,
-                            cacheWidth: 160,
-                            frameBuilder: (BuildContext context, Widget child,
-                                int? frame, bool wasSynchronouslyLoaded) {
-                              if (frame != null) {
-                                return child;
-                              } else {
-                                return Shimmer.fromColors(
-                                  baseColor: Colors.grey[300]!,
-                                  highlightColor: Colors.grey[100]!,
-                                  child: Container(color: Colors.white),
-                                );
-                              }
-                            },
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child;
-                              } else {
-                                return child;
-                              }
-                            },
-                          ),
-                        ]),
-                      ],
-                    ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: -2,
+                        right: 0,
+                        child: ExpandableButton(
+                          item: ItemList.elementAt(1),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 13.0),
+                        child: Image.asset(
+                          "lib/assets/friesLong.png",
+                          width: 150,
+                          height: 320,
+                          fit: BoxFit.fitHeight,
+                          frameBuilder: (BuildContext context, Widget child,
+                              int? frame, bool wasSynchronouslyLoaded) {
+                            if (frame != null) {
+                              return child;
+                            } else {
+                              return Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.grey[100]!,
+                                child: Container(color: Colors.white),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    ]),
                   ],
                 ),
               ),
@@ -588,7 +451,7 @@ class _HomescreenState extends State<Homescreen> {
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black.withAlpha(240)),
+                        color: Color.fromARGB(255, 202, 40, 29).withAlpha(240)),
                   )),
               SizedBox(
                 height: 260,
@@ -610,7 +473,7 @@ class _HomescreenState extends State<Homescreen> {
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black.withAlpha(240)),
+                        color: Color.fromARGB(255, 202, 40, 29).withAlpha(240)),
                   )),
               Container(
                 child: Column(
@@ -646,43 +509,126 @@ class _HomescreenState extends State<Homescreen> {
                   ],
                 ),
               ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  LottieBuilder.asset(
+                    repeat: false,
+                    'lib/assets/chef3.json',
+                    width: MediaQuery.of(context).size.width - 100,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Can't decide? Treat yourself to",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        SizedBox(width: 4),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Text(
+                            "Today's Special!",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 202, 40, 29),
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
               SizedBox(
-                height: 150,
+                height: 90,
               ),
             ]),
           ),
           Positioned(
-              bottom: 16,
+              bottom: 0,
               right: 0,
               left: 0,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 28),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(18)),
-                  height: 80,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.home,
-                            color: Colors.white,
-                          )),
-                      IconButton(
-                          onPressed: () {
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (_) => Specials()),
-                            );
-                          },
-                          icon: Icon(Icons.local_offer)),
-                      IconButton(
-                          onPressed: () {}, icon: Icon(Icons.location_on)),
-                      IconButton(onPressed: () {}, icon: Icon(Icons.person))
-                    ],
-                  ),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(18)),
+                height: 70,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      children: [
+                        IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.restaurant_menu,
+                              color: Color.fromARGB(255, 202, 40, 29)
+                                  .withAlpha(240),
+                            )),
+                        Text(
+                          "Menu",
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 202, 40, 29)
+                                  .withAlpha(240)),
+                        )
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(builder: (_) => Specials()),
+                              );
+                            },
+                            icon: Icon(
+                              Icons.local_offer_outlined,
+                              color: Colors.white,
+                            )),
+                        Text(
+                          "For You",
+                          style: TextStyle(color: Colors.white),
+                        )
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(builder: (_) => Scan()),
+                              );
+                            },
+                            icon: Icon(
+                              Icons.create_outlined,
+                              color: Colors.white,
+                            )),
+                        Text(
+                          "Scan",
+                          style: TextStyle(color: Colors.white),
+                        )
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/cartPage');
+                            },
+                            icon: Icon(
+                              Icons.shopping_cart_outlined,
+                              color: Colors.white,
+                            )),
+                        Text(
+                          "Your Order",
+                          style: TextStyle(color: Colors.white),
+                        )
+                      ],
+                    )
+                  ],
                 ),
               ))
         ]),
@@ -690,14 +636,63 @@ class _HomescreenState extends State<Homescreen> {
   }
 }
 
+class Orders {
+  final int orderId;
+  final DateTime orderDate;
+  final DateTime deliveryTime;
+  final String orderStatus;
+  final String customerName;
+  final List<OrderItem> orderItems;
+
+  Orders({
+    required this.orderId,
+    required this.orderDate,
+    required this.deliveryTime,
+    required this.customerName,
+    required this.orderStatus,
+    required this.orderItems,
+  });
+
+  factory Orders.fromJson(Map<String, dynamic> json) {
+    return Orders(
+      orderId: json['orderId'],
+      orderDate: DateTime.parse(json['orderDate']),
+      deliveryTime: DateTime.parse(json['deliveryTime']),
+      customerName: json['customerName'],
+      orderStatus: json['orderStatus'],
+      orderItems: (json['orderItems'] as List<dynamic>)
+          .map((item) => OrderItem.fromJson(item))
+          .toList(),
+    );
+  }
+}
+
+class OrderItem {
+  final int itemId;
+  final int quantity;
+  final Items item;
+
+  OrderItem({
+    required this.itemId,
+    required this.quantity,
+    required this.item,
+  });
+
+  factory OrderItem.fromJson(Map<String, dynamic> json) {
+    return OrderItem(
+      itemId: json['itemId'],
+      quantity: json['quantity'],
+      item: Items.fromJson(json['item']),
+    );
+  }
+}
+
 class Items {
   final int id;
   final String name;
-  final int price;
+  final double price;
   int quantity;
   final String description;
-  final Category category;
-  final List<String> ingredient;
   final String titleimage;
 
   Items({
@@ -706,9 +701,7 @@ class Items {
     required this.price,
     required this.quantity,
     required this.description,
-    required this.category,
     required this.titleimage,
-    required this.ingredient,
   });
 
   factory Items.fromJson(Map<String, dynamic> json) {
@@ -716,24 +709,9 @@ class Items {
       id: json['id'],
       name: json['name'],
       price: json['price'],
-      quantity: 1, //json['quantity'],
+      quantity: 1,
       description: json['description'],
-      category: Category.fromJson(json['category']),
       titleimage: json['titleImage'],
-      ingredient: List<String>.from(json['ingredients']),
     );
-  }
-}
-
-class Category {
-  final int id;
-  final String name;
-  final String description;
-
-  Category({required this.id, required this.description, required this.name});
-
-  factory Category.fromJson(Map<String, dynamic> json) {
-    return Category(
-        id: json['id'], description: json['description'], name: json['name']);
   }
 }

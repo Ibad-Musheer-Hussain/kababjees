@@ -1,11 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:kababjees/HomeScreen.dart';
+import 'package:kababjees/Scan.dart';
+import 'package:kababjees/Special.dart';
 import 'package:kababjees/cart_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -22,16 +23,45 @@ class _CartpageState extends State<Cartpage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
-        title: IconButton(
+        automaticallyImplyLeading: false,
+        shadowColor: Colors.black.withAlpha(30),
+        surfaceTintColor: Colors.black.withAlpha(30),
+        //scrolledUnderElevation: 0,
+        actions: [
+          IconButton(
+            color: Color.fromARGB(255, 202, 40, 29),
             onPressed: () {
               Navigator.pop(context);
             },
+            icon: Icon(Icons.arrow_back),
+          ),
+          Spacer(),
+          Text(
+            "Cart",
+            style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+                color: Color.fromARGB(255, 202, 40, 29)),
+          ),
+          Spacer(
+            flex: 5,
+          ),
+          IconButton(
             icon: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            )),
+              Icons.search,
+              color: Colors.transparent,
+            ),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.shopping_cart,
+              color: Colors.transparent,
+            ),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: Stack(
         fit: StackFit.expand,
@@ -41,7 +71,7 @@ class _CartpageState extends State<Cartpage> {
             fit: BoxFit.cover,
           ),
           BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+            filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 5.0),
             child: Container(
               color: Colors.black
                   .withOpacity(0), // Transparent color to apply blur effect
@@ -51,19 +81,11 @@ class _CartpageState extends State<Cartpage> {
             height: MediaQuery.of(context).size.height,
             child: ListView(
               children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 28, vertical: 12),
-                  child: Text(
-                    "Cart Page",
-                    style: TextStyle(color: Colors.white, fontSize: 24),
-                  ),
-                ),
                 Consumer<CartProvider>(
                   builder: (context, cartProvider, child) {
                     final cart = cartProvider.cart.items;
                     return Container(
-                      height: MediaQuery.of(context).size.height - 240,
+                      height: MediaQuery.of(context).size.height - 210,
                       child: ListView.builder(
                           itemCount: cart.length,
                           itemBuilder: (context, index) {
@@ -77,20 +99,20 @@ class _CartpageState extends State<Cartpage> {
                                     height: 270,
                                     width:
                                         MediaQuery.of(context).size.width - 60,
-                                    borderRadius: 12,
-                                    blur: 8,
+                                    borderRadius: 14,
+                                    blur: 0.3,
                                     alignment: Alignment.bottomCenter,
-                                    border: 1,
+                                    border: 2,
                                     linearGradient: LinearGradient(
                                         begin: Alignment.topLeft,
                                         end: Alignment.bottomRight,
                                         colors: [
-                                          Color(0xFFffffff).withAlpha(30),
-                                          Color(0xFFffffff).withAlpha(75),
+                                          Color(0x020616).withAlpha(8),
+                                          Color.fromARGB(104, 193, 195, 202),
                                         ],
                                         stops: [
                                           0.1,
-                                          0.5,
+                                          0.8,
                                         ]),
                                     borderGradient: LinearGradient(
                                         begin: Alignment.bottomRight,
@@ -109,7 +131,7 @@ class _CartpageState extends State<Cartpage> {
                                       Container(
                                         width: 200,
                                         child: Padding(
-                                          padding: const EdgeInsets.all(13.0),
+                                          padding: const EdgeInsets.all(12.0),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -117,7 +139,8 @@ class _CartpageState extends State<Cartpage> {
                                               Text(
                                                 item.name,
                                                 style: TextStyle(
-                                                    color: Colors.white,
+                                                    color: Color.fromARGB(
+                                                        255, 202, 40, 29),
                                                     fontSize: 20,
                                                     fontWeight:
                                                         FontWeight.bold),
@@ -128,7 +151,7 @@ class _CartpageState extends State<Cartpage> {
                                                 child: Text(
                                                   item.description,
                                                   style: TextStyle(
-                                                    color: Colors.white,
+                                                    color: Colors.black,
                                                     fontSize: 14,
                                                   ),
                                                   overflow:
@@ -161,7 +184,12 @@ class _CartpageState extends State<Cartpage> {
                                                           },
                                                           icon: Icon(
                                                             Icons.remove,
-                                                            color: Colors.black,
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    202,
+                                                                    40,
+                                                                    29),
                                                           )),
                                                       Container(
                                                         width: 50,
@@ -213,7 +241,12 @@ class _CartpageState extends State<Cartpage> {
                                                           },
                                                           icon: Icon(
                                                             Icons.add,
-                                                            color: Colors.black,
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    202,
+                                                                    40,
+                                                                    29),
                                                           )),
                                                     ],
                                                   ),
@@ -222,10 +255,6 @@ class _CartpageState extends State<Cartpage> {
                                               Consumer<CartProvider>(
                                                 builder: (context, cartProvider,
                                                     child) {
-                                                  int itemPrice = int.parse(
-                                                          quantitycontroller
-                                                              .text) *
-                                                      item.quantity;
                                                   return Padding(
                                                     padding:
                                                         const EdgeInsets.only(
@@ -233,7 +262,7 @@ class _CartpageState extends State<Cartpage> {
                                                     child: Text(
                                                       'Item Total: ${cartProvider.itemPrice(item)}',
                                                       style: TextStyle(
-                                                          color: Colors.white,
+                                                          color: Colors.black87,
                                                           fontSize: 16,
                                                           fontWeight:
                                                               FontWeight.bold),
@@ -283,10 +312,10 @@ class _CartpageState extends State<Cartpage> {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.only(bottom: 100, left: 30, right: 30),
+                      const EdgeInsets.only(bottom: 24.0, left: 24, right: 24),
                   child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.black87,
+                          color: Color.fromARGB(255, 202, 40, 29),
                           borderRadius: BorderRadius.circular(14)),
                       height: 60,
                       child: Row(
@@ -295,24 +324,124 @@ class _CartpageState extends State<Cartpage> {
                           Consumer<CartProvider>(
                             builder: (context, cartProvider, child) {
                               return Text(
-                                'Total Price: ${cartProvider.totalPrice}',
-                                style: TextStyle(color: Colors.white),
+                                '  Total Price: ${cartProvider.totalPrice}',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15),
                               );
                             },
                           ),
                           SizedBox(
                             width: 5,
                           ),
-                          FloatingActionButton.extended(
-                            backgroundColor: Colors.white,
-                            foregroundColor: Colors.black,
-                            onPressed: () {},
-                            label: Text("Checkout"),
-                            icon: Icon(Icons.credit_card),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: FloatingActionButton.extended(
+                              backgroundColor: Colors.white,
+                              foregroundColor: Colors.black,
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/checkOut');
+                              },
+                              label: Text("Checkout"),
+                              icon: Icon(
+                                Icons.credit_card,
+                                color: Color.fromARGB(255, 202, 40, 29),
+                              ),
+                            ),
                           ),
                         ],
                       )),
                 ),
+                Positioned(
+                    bottom: 0,
+                    right: 0,
+                    left: 0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(18)),
+                      height: 70,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (_) => Homescreen()),
+                                    );
+                                  },
+                                  icon: Icon(
+                                    Icons.restaurant_menu,
+                                    color: Colors.white,
+                                  )),
+                              Text(
+                                "Menu",
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (_) => Specials()),
+                                    );
+                                  },
+                                  icon: Icon(
+                                    Icons.local_offer_outlined,
+                                    color: Colors.white,
+                                  )),
+                              Text(
+                                "For You",
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(builder: (_) => Scan()),
+                                    );
+                                  },
+                                  icon: Icon(
+                                    Icons.create_outlined,
+                                    color: Colors.white,
+                                  )),
+                              Text(
+                                "Scan",
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/cartPage');
+                                  },
+                                  icon: Icon(
+                                    Icons.shopping_cart_outlined,
+                                    color: Color.fromARGB(255, 202, 40, 29),
+                                  )),
+                              Text(
+                                "Your Order",
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 202, 40, 29),
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ))
               ],
             ),
           ),

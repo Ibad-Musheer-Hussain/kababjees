@@ -8,11 +8,8 @@ class Cart {
 
     if (existingItemIndex != -1) {
       items[existingItemIndex].quantity += 1;
-      print("quantity increased");
-      print(items[existingItemIndex].quantity);
     } else {
       items.add(item);
-      print("item added");
     }
   }
 
@@ -21,11 +18,9 @@ class Cart {
 
     if (existingItemIndex != -1) {
       items[existingItemIndex].quantity = quantity;
-      print("Quantity set to $quantity");
     } else {
       item.quantity = quantity;
       items.add(item);
-      print("Item added with quantity $quantity");
     }
   }
 
@@ -53,7 +48,11 @@ class Cart {
     }
   }
 
-  int itemPrice(Items item) {
+  int getquantity(Items item) {
+    return item.quantity;
+  }
+
+  double itemPrice(Items item) {
     return item.price * item.quantity;
   }
 

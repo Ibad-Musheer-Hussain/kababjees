@@ -33,8 +33,13 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  int itemPrice(Items item) {
-    int temp = _cart.itemPrice(item);
+  int getquantity(Items item) {
+    notifyListeners();
+    return _cart.getquantity(item);
+  }
+
+  double itemPrice(Items item) {
+    double temp = _cart.itemPrice(item);
     notifyListeners();
     return temp;
   }
