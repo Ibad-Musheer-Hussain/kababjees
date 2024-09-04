@@ -15,30 +15,29 @@ class _CustomdrawerState extends State<Customdrawer> {
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: const Color.fromARGB(225, 14, 14, 14),
-      width: MediaQuery.of(context).size.width * 0.5,
+      width: MediaQuery.of(context).size.width * 0.55,
       child: GlassmorphicContainer(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width - 100,
-        borderRadius: 12,
-        blur: 0,
+        blur: 0.3,
         alignment: Alignment.bottomCenter,
-        border: 1,
+        border: 2,
         linearGradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0x020616).withAlpha(70),
-              Color(0xFFffffff).withAlpha(75),
+              Color.fromARGB(164, 193, 195, 202),
+              Color.fromARGB(184, 193, 195, 202),
             ],
             stops: [
               0.1,
-              0.5,
+              0.8,
             ]),
         borderGradient: LinearGradient(
             begin: Alignment.bottomRight,
             end: Alignment.topLeft,
             colors: [
-              Color(0xFF4579C5).withAlpha(01),
+              Color(0xFF4579C5).withAlpha(10),
               Color(0xFFFFFFF).withAlpha(20),
               Color(0xFFF75035).withAlpha(20),
             ],
@@ -47,6 +46,7 @@ class _CustomdrawerState extends State<Customdrawer> {
               0.95,
               1
             ]),
+        borderRadius: 16,
         child: ListView(
           physics: BouncingScrollPhysics(),
           children: [
@@ -71,13 +71,13 @@ class _CustomdrawerState extends State<Customdrawer> {
               builder: (context, cartProvider, child) {
                 final cart = cartProvider.cart.items;
                 return Container(
-                  height: 700,
+                  height: MediaQuery.of(context).size.height - 180,
                   child: ListView.builder(
                     itemCount: cart.length,
                     itemBuilder: (context, index) {
                       final item = cart[index];
                       return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40),
+                        padding: const EdgeInsets.symmetric(vertical: 15),
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.45,
                           height: 150,
@@ -87,8 +87,9 @@ class _CustomdrawerState extends State<Customdrawer> {
                                   width:
                                       MediaQuery.of(context).size.width * 0.3,
                                   fit: BoxFit.fitWidth,
-                                  "https://firebasestorage.googleapis.com/v0/b/biddy-45c49.appspot.com/o/Layer%201.png?alt=media&token=0c337285-c71c-415d-a223-190e6705a25e"),
+                                  item.titleimage),
                             ),
+                            /*
                             Padding(
                               padding: const EdgeInsets.only(
                                   bottom: 100.0, left: 100),
@@ -102,17 +103,18 @@ class _CustomdrawerState extends State<Customdrawer> {
                                   ),
                                   child: IconButton(
                                     onPressed: () {
-                                      print("Removing item id: ${item.id}");
-                                      Provider.of<CartProvider>(context,
-                                              listen: false)
-                                          .removeItem(item.id, item);
+                                      setState(() {
+                                        Provider.of<CartProvider>(context,
+                                                listen: false)
+                                            .removeItem(item.id, item);
+                                      });
                                     },
                                     icon: Icon(Icons.close),
                                     color: Colors.red,
                                   ),
                                 ),
                               ),
-                            ),
+                            ),*/
                             Padding(
                               padding:
                                   const EdgeInsets.only(top: 100.0, right: 100),
@@ -144,10 +146,26 @@ class _CustomdrawerState extends State<Customdrawer> {
             ),
             Consumer<CartProvider>(
               builder: (context, cartProvider, child) {
-                return Text(
-                  'Total Price: ${cartProvider.totalPrice}',
-                  style: TextStyle(color: Colors.white),
-                );
+                return ListTile(
+                    title: Text(
+                      'Total Price ${cartProvider.totalPrice}',
+                      style: TextStyle(color: Colors.white, fontSize: 17),
+                    ),
+                    trailing: Container(
+                      width: 40.0,
+                      height: 40.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white54,
+                      ),
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/cartPage');
+                        },
+                        icon: Icon(Icons.shopping_cart),
+                        color: Color.fromARGB(255, 202, 40, 29),
+                      ),
+                    ));
               },
             ),
           ],

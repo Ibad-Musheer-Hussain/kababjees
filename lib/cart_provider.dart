@@ -23,5 +23,26 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void increment(Items item) {
+    _cart.increment(item);
+    notifyListeners();
+  }
+
+  void decrement(Items item) {
+    _cart.decrement(item);
+    notifyListeners();
+  }
+
+  int getquantity(Items item) {
+    notifyListeners();
+    return _cart.getquantity(item);
+  }
+
+  double itemPrice(Items item) {
+    double temp = _cart.itemPrice(item);
+    notifyListeners();
+    return temp;
+  }
+
   double get totalPrice => _cart.totalPrice;
 }
